@@ -37,6 +37,11 @@ public class TestObjectConvertUtil {
 	public void convertObject() throws Exception{
 		Map<String,Object> datas = ObjectConvertUtil.convertMap(old_s);
 		Student student = (Student) ObjectConvertUtil.convertObject(datas, Student.class);
-		assertEquals(old_s, student);
+		assertEquals(old_s.getAge(), student.getAge());
+		assertEquals(old_s.getBirthday(), student.getBirthday());
+		assertEquals(old_s.getIsFale(), student.getIsFale());
+		assertEquals(old_s.getMoney(), student.getMoney());
+		assertEquals(old_s.getName(), student.getName());
+		assertEquals(old_s.getTall(), student.getTall());
 	}
 }
