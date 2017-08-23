@@ -51,5 +51,10 @@ public class Student implements Cloneable {
 		// TODO Auto-generated method stub
 		return super.clone();
 	}
+	@Override
+	public String toString() {
+		return "Student [name=" + name + ", age=" + age + ", money=" + money + ", tall=" + tall + ", isFale=" + isFale
+				+ ", birthday=" + birthday + "]";
+	}
 	
 }
