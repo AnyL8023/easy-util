@@ -2,10 +2,12 @@ package com.anyl.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ObjectConvertUtil {
 
@@ -51,6 +53,7 @@ public class ObjectConvertUtil {
 	
 	/**
 	 * 将List按照指定的key放入到Map集合中
+	 * @author AnyL8023
 	 * @param list
 	 * @param fieldKey
 	 * @return
@@ -73,5 +76,46 @@ public class ObjectConvertUtil {
 		}
 		return map;
 	}
+	
+	/**
+	 * 将Map转为List
+	 * @author AnyL8023
+	 * @param map
+	 * @return
+	 */
+	public static <T> List<T> convertMapToList(Map<Object,T> map){
+		if(null == map){
+			return null;
+		}
+		
+		List<T> list = new ArrayList<T>();
+		for(T t:map.values()){
+			list.add(t);
+		}
+		return list;
+	}
 
+	
+	/**
+	 * 从List中根据field字段抽取数据
+	 * @author AnyL8023
+	 * @param map
+	 * @return
+	 */
+	public static Set extractValue(List list,String fieldKey) throws IllegalArgumentException, IllegalAccessException{
+		if(null == list || null == fieldKey){
+			return null;
+		}
+		Set set = new HashSet();
+		for(Object obj:list){
+			Field[] fields = obj.getClass().getDeclaredFields();
+			for(Field field:fields){
+				if(field.getName().equals(fieldKey)){
+					field.setAccessible(true);
+					set.add(field.get(obj));
+				}
+			}
+		}
+		return set;
+	}
 }

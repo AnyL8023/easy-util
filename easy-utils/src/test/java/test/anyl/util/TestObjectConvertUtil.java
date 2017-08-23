@@ -4,10 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.anyl.util.ObjectConvertUtil;
@@ -82,5 +84,44 @@ public class TestObjectConvertUtil {
 		assertEquals(student1,map.get(21));
 		assertEquals(student2,map.get(22));
 		assertEquals(student3,map.get(23));
+	}
+	
+	@Test
+	public void convertMapToList() throws CloneNotSupportedException{
+		Map<Object,Student> map = new HashMap<Object,Student>();
+		Student student1 = (Student) old_s.clone();
+		student1.setName("李四");
+		Student student2 = (Student) old_s.clone();
+		student2.setName("王五");
+		Student student3 = (Student) old_s.clone();
+		student3.setName("赵六");
+		map.put("李四", student1);
+		map.put("王五", student2);
+		map.put("赵六", student3);
+		
+		List<Student> datas = ObjectConvertUtil.convertMapToList(map);
+		Assert.assertTrue(datas.contains(student1));
+		Assert.assertTrue(datas.contains(student2));
+		Assert.assertTrue(datas.contains(student3));
+	}
+	
+	@Test
+	public void extractValue() throws CloneNotSupportedException, IllegalArgumentException, IllegalAccessException{
+		List<Student> list = new ArrayList<Student>();
+		Student student1 = (Student) old_s.clone();
+		student1.setName("李四");
+		Student student2 = (Student) old_s.clone();
+		student2.setName("王五");
+		Student student3 = (Student) old_s.clone();
+		student3.setName("赵六");
+		list.add(student1);
+		list.add(student2);
+		list.add(student3);
+		
+		Set<Object> keyValues = ObjectConvertUtil.extractValue(list, "name");
+		Assert.assertTrue(keyValues.contains("李四"));
+		Assert.assertTrue(keyValues.contains("王五"));
+		Assert.assertTrue(keyValues.contains("赵六"));
+		Assert.assertFalse(keyValues.contains("张三"));
 	}
 }
