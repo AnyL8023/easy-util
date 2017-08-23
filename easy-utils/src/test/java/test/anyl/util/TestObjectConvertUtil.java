@@ -2,9 +2,12 @@ package test.anyl.util;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Date;import java.util.Map;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.anyl.util.ObjectConvertUtil;
@@ -43,5 +46,41 @@ public class TestObjectConvertUtil {
 		assertEquals(old_s.getMoney(), student.getMoney());
 		assertEquals(old_s.getName(), student.getName());
 		assertEquals(old_s.getTall(), student.getTall());
+	}
+	
+	@Test
+	public void convertListToMapString() throws CloneNotSupportedException, IllegalArgumentException, IllegalAccessException{
+		List<Student> list = new ArrayList<Student>();
+		Student student1 = (Student) old_s.clone();
+		student1.setName("李四");
+		Student student2 = (Student) old_s.clone();
+		student2.setName("王五");
+		Student student3 = (Student) old_s.clone();
+		student3.setName("赵六");
+		list.add(student1);
+		list.add(student2);
+		list.add(student3);
+		Map<Object, Student> map = ObjectConvertUtil.convertListToMap(list, "name");
+		assertEquals(student1,map.get("李四"));
+		assertEquals(student2,map.get("王五"));
+		assertEquals(student3,map.get("赵六"));
+	}
+	
+	@Test
+	public void convertListToMapInteger() throws CloneNotSupportedException, IllegalArgumentException, IllegalAccessException{
+		List<Student> list = new ArrayList<Student>();
+		Student student1 = (Student) old_s.clone();
+		student1.setAge(21);
+		Student student2 = (Student) old_s.clone();
+		student2.setAge(22);
+		Student student3 = (Student) old_s.clone();
+		student3.setAge(23);
+		list.add(student1);
+		list.add(student2);
+		list.add(student3);
+		Map<Object, Student> map = ObjectConvertUtil.convertListToMap(list, "age");
+		assertEquals(student1,map.get(21));
+		assertEquals(student2,map.get(22));
+		assertEquals(student3,map.get(23));
 	}
 }
