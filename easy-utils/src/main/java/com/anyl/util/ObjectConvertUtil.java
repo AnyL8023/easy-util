@@ -25,6 +25,7 @@ public class ObjectConvertUtil {
 		for (Field field : fields) {
 			field.setAccessible(true);
 			map.put(field.getName(), field.get(obj));
+			field.setAccessible(false);
 		}
 		return map;
 	}
@@ -47,6 +48,7 @@ public class ObjectConvertUtil {
 			}
 			field.setAccessible(true);
 			field.set(obj, map.get(field.getName()));
+			field.setAccessible(false);
 		}
 		return obj;
 	}
@@ -71,6 +73,7 @@ public class ObjectConvertUtil {
 				if(field.getName().equals(fieldKey)){
 					field.setAccessible(true);
 					map.put(field.get(obj), obj);
+					field.setAccessible(false);
 				}
 			}
 		}
@@ -113,6 +116,7 @@ public class ObjectConvertUtil {
 				if(field.getName().equals(fieldKey)){
 					field.setAccessible(true);
 					set.add(field.get(obj));
+					field.setAccessible(false);
 				}
 			}
 		}
