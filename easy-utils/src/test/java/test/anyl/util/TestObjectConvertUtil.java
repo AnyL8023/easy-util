@@ -2,6 +2,7 @@ package test.anyl.util;
 
 import static org.junit.Assert.assertEquals;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import org.junit.Test;
 import com.anyl.util.ObjectConvertUtil;
 
 import test.anyl.entity.Student;
+import test.anyl.entity.Student2;
 
 public class TestObjectConvertUtil {
 
@@ -123,5 +125,17 @@ public class TestObjectConvertUtil {
 		Assert.assertTrue(keyValues.contains("王五"));
 		Assert.assertTrue(keyValues.contains("赵六"));
 		Assert.assertFalse(keyValues.contains("张三"));
+	}
+	
+	@Test
+	public void copy() throws IllegalArgumentException, IllegalAccessException{
+		Student2 student = new Student2();
+		ObjectConvertUtil.copy(old_s, student);
+		assertEquals(old_s.getAge(), student.getAge());
+		Assert.assertNull(student.getBirthday());
+		assertEquals(old_s.getIsFale(), student.getIsFale());
+		assertEquals(old_s.getMoney(), student.getMoney());
+		assertEquals(old_s.getName(), student.getName());
+		assertEquals(old_s.getTall(), student.getTall());
 	}
 }

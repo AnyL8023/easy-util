@@ -118,4 +118,32 @@ public class ObjectConvertUtil {
 		}
 		return set;
 	}
+	
+	/**
+	 * 将一个对象的值赋值到另一个对象相同的字段
+	 * @author AnyL8023
+	 * @param src
+	 * @param target
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 */
+	public static void copy(Object src,Object target) throws IllegalArgumentException, IllegalAccessException{
+		Map<Field,Object> valuesMap = DiffObjectUtil.getObjectValues(src.getClass(), src);
+		
+		Field[] srcFields = DiffObjectUtil.getFields(src.getClass());
+		Field[] targetFields = DiffObjectUtil.getFields(target.getClass());
+		
+		for(Field srcField:srcFields){
+			for(Field targetField:targetFields){
+				srcField.setAccessible(true);
+				targetField.setAccessible(true);
+				if(srcField.getName().equals(targetField.getName())
+						&& srcField.getGenericType().equals(targetField.getGenericType())){
+					targetField.set(target, srcField.get(src));
+				}
+				srcField.setAccessible(false);
+				targetField.setAccessible(false);
+			}
+		}
+	}
 }
