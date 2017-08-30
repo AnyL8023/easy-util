@@ -17,6 +17,7 @@ import com.anyl.util.ObjectConvertUtil;
 
 import test.anyl.entity.Student;
 import test.anyl.entity.Student2;
+import test.anyl.entity.Student3;
 
 public class TestObjectConvertUtil {
 
@@ -39,7 +40,6 @@ public class TestObjectConvertUtil {
 		assertEquals(100000l, datas.get("money"));
 		assertEquals(180.5, datas.get("tall"));
 	}
-	
 	@Test
 	public void convertObject() throws Exception{
 		Map<String,Object> datas = ObjectConvertUtil.convertMap(old_s);
@@ -50,6 +50,35 @@ public class TestObjectConvertUtil {
 		assertEquals(old_s.getMoney(), student.getMoney());
 		assertEquals(old_s.getName(), student.getName());
 		assertEquals(old_s.getTall(), student.getTall());
+	}
+	
+	@Test
+	public void convertObject2() throws Exception{
+		Map<String,Object> datas = ObjectConvertUtil.convertMap(old_s);
+		Student3 student = (Student3) ObjectConvertUtil.convertObject(datas, Student3.class);
+		assertEquals(null, student.getAge1());
+		assertEquals(null, student.getBirthday());
+		assertEquals(old_s.getIsFale(), student.getIsFale());
+		assertEquals(null, student.getMoney1());
+		assertEquals(null, student.getName1());
+		assertEquals(old_s.getTall(), student.getTall());
+	}
+	
+	
+	@Test
+	public void convertObjectMap() throws Exception{
+		Map<String,Object> datas = ObjectConvertUtil.convertMap(old_s);
+		Map<String,String> maps = new HashMap<String,String>();
+		maps.put("name1", "name");
+		maps.put("age1", "age2");
+		Student3 s = (Student3) ObjectConvertUtil.convertObject(datas, Student3.class, maps);
+		assertEquals(null, s.getAge1());
+		assertEquals(null, s.getBirthday());
+		assertEquals(old_s.getIsFale(), s.getIsFale());
+		assertEquals(null, s.getMoney1());
+		assertEquals(old_s.getName(), s.getName1());
+		assertEquals(old_s.getTall(), s.getTall());
+		
 	}
 	
 	@Test

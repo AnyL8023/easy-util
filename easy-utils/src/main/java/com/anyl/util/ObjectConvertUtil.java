@@ -31,7 +31,7 @@ public class ObjectConvertUtil {
 	}
 	
 	/**
-	 * 将Map里面的数据状为一个对象
+	 * 将Map里面的数据转为一个对象
 	 * @author AnyL8023
 	 * @param map
 	 * @param clazz
@@ -47,12 +47,48 @@ public class ObjectConvertUtil {
 				continue;
 			}
 			field.setAccessible(true);
-			field.set(obj, map.get(field.getName()));
+			if(null != map.get(field.getName()) && field.getGenericType() == map.get(field.getName()).getClass()){
+				field.set(obj, map.get(field.getName()));
+			}
 			field.setAccessible(false);
 		}
 		return obj;
 	}
 	
+	
+	/**
+	 * 将Map里面的数据转为一个对象,通过一张映射表
+	 * @param data
+	 * @param clazz
+	 * @param map	映射关系<Field,Key>
+	 * @return
+	 * @throws Exception
+	 */
+	public static Object convertObject(Map<String, Object> data, Class<?> clazz,Map<String,String> map) throws Exception {
+		Object obj = clazz.newInstance();
+		Field[] declaredFields = obj.getClass().getDeclaredFields();
+		for (Field field : declaredFields) {
+			int mod = field.getModifiers();
+			if (Modifier.isStatic(mod) || Modifier.isFinal(mod)) {
+				continue;
+			}
+			field.setAccessible(true);
+			if(null != map && map.size() > 0){
+				if(null != map.get(field.getName())){
+					if(null != data.get(map.get(field.getName())) && field.getGenericType() == data.get(map.get(field.getName())).getClass()){
+						field.set(obj,data.get(map.get(field.getName())));
+					}
+					field.setAccessible(false);
+					continue;
+				}
+			}
+			if(null != data.get(field.getName()) && field.getGenericType() == data.get(field.getName()).getClass()){
+				field.set(obj,data.get(field.getName()));
+			}
+			field.setAccessible(false);
+		}
+		return obj;
+	}
 	/**
 	 * 将List按照指定的key放入到Map集合中
 	 * @author AnyL8023

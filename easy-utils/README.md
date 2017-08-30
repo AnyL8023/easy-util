@@ -4,3 +4,6 @@
 	新增DateUtil用于处理时间相关。<br>
 ###2017-08-29<br>
 	新增ObjectConvertUtil的copy方法，用于复制对象的值
+###2017-08-30<br>
+	修改了ObjectConvertUtil的convertObject方法，新增了类型的判断
+	重载了ObjectConvertUtil的convertObject方法，允许通过类的字段和关键词构成的映射关系去查找数据
